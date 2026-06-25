@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>考前复习小助手</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
+            min-height: 100vh;
+        }
+
+        .status-bar {
+            height: 44px;
+            padding-top: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-left: 24px;
+            padding-right: 24px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #000;
+            background-color: #ffffff;
+        }
+
+        .content {
+            padding: 32px 24px;
+        }
+
+        .empathy-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .empathy-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+
+        .empathy-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+
+        .empathy-text {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .action-section {
+            margin-bottom: 40px;
+        }
+
+        .action-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .action-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .action-item {
+            background-color: #ffffff;
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 12px;
+            display: flex;
+            gap: 14px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+            border: 1px solid #f0f0f0;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .action-item:hover {
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+        }
+
+        .action-item.completed {
+            background-color: #f6ffed;
+            border-color: #b7eb8f;
+        }
+
+        .checkbox {
+            width: 28px;
+            height: 28px;
+            border: 2px solid #d9d9d9;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.2s;
+        }
+
+        .action-item.completed .checkbox {
+            background-color: #52c41a;
+            border-color: #52c41a;
+        }
+
+        .checkbox-check {
+            color: white;
+            font-size: 14px;
+            display: none;
+        }
+
+        .action-item.completed .checkbox-check {
+            display: block;
+        }
+
+        .action-content {
+            flex: 1;
+        }
+
+        .action-step {
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .action-desc {
+            font-size: 12px;
+            color: #999;
+        }
+
+        .support-section {
+            text-align: center;
+            padding: 24px;
+            background: linear-gradient(135deg, #fffbe6 0%, #fff7e6 100%);
+            border-radius: 16px;
+            margin-bottom: 32px;
+        }
+
+        .support-icon {
+            font-size: 32px;
+            margin-bottom: 12px;
+        }
+
+        .support-title {
+            font-size: 15px;
+            font-weight: 500;
+            color: #d48806;
+            margin-bottom: 8px;
+        }
+
+        .support-text {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 16px;
+        }
+
+        .support-btn {
+            padding: 10px 24px;
+            background-color: #faad14;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .support-btn:hover {
+            background-color: #ffc53d;
+        }
+
+        .bottom-hint {
+            text-align: center;
+            font-size: 12px;
+            color: #ccc;
+            padding-bottom: 32px;
+        }
+
+        .home-indicator {
+            width: 134px;
+            height: 5px;
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 3px;
+            margin: 0 auto;
+            padding-bottom: 20px;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 20px;
+            font-size: 13px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+
+        .toast.show {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="status-bar">
+        <span>⌚️</span>
+        <span></span>
+        <span>🔋</span>
+    </div>
+
+    <div class="content">
+        <div class="empathy-section">
+            <div class="empathy-icon">📚</div>
+            <h1 class="empathy-title">考前复习小助手</h1>
+            <p class="empathy-text">
+                考试前感到紧张和焦虑是非常正常的，这说明你很重视这次考试。与其被焦虑牵着走，不如试试这些小方法，帮你找回节奏，轻松应考。
+            </p>
+        </div>
+
+        <div class="action-section">
+            <div class="action-title">
+                <span>📝</span> 今天可以试试的小事
+            </div>
+            <ul class="action-list">
+                <li class="action-item" onclick="toggleComplete(this)">
+                    <div class="checkbox">
+                        <span class="checkbox-check">✓</span>
+                    </div>
+                    <div class="action-content">
+                        <div class="action-step">第一步：制定小目标</div>
+                        <div class="action-desc">今天只复习3个章节的重点，不多不少</div>
+                    </div>
+                </li>
+                <li class="action-item" onclick="toggleComplete(this)">
+                    <div class="checkbox">
+                        <span class="checkbox-check">✓</span>
+                    </div>
+                    <div class="action-content">
+                        <div class="action-step">第二步：呼吸放松法</div>
+                        <div class="action-desc">学习50分钟后，闭眼深呼吸3次，吸气4秒呼气6秒</div>
+                    </div>
+                </li>
+                <li class="action-item" onclick="toggleComplete(this)">
+                    <div class="checkbox">
+                        <span class="checkbox-check">✓</span>
+                    </div>
+                    <div class="action-content">
+                        <div class="action-step">第三步：适当休息</div>
+                        <div class="action-desc">休息时看看窗外，或者走动一下，让大脑放松</div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="support-section">
+            <div class="support-icon">💬</div>
+            <div class="support-title">需要更多支持？</div>
+            <div class="support-text">
+                如果你觉得压力太大，或者想要找人聊聊——这里有一些可以帮到你的资源。没有压力，只是陪你说说话。
+            </div>
+            <button class="support-btn" onclick="goToHotline()">
+                联系支持人员
+            </button>
+        </div>
+
+        <div class="bottom-hint">
+            每一步都值得肯定，慢慢来，不着急
+        </div>
+    </div>
+
+    <div class="home-indicator"></div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        function toggleComplete(element) {
+            element.classList.toggle('completed');
+            const stepText = element.querySelector('.action-step').textContent;
+            if (element.classList.contains('completed')) {
+                showToast(`已完成：${stepText}`);
+            }
+        }
+
+        function goToHotline() {
+            showToast('正在打开支持页面...');
+            setTimeout(() => {
+                window.location.href = 'C4_crisisHotline.html';
+            }, 1000);
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2000);
+        }
+    </script>
+</body>
+</html>

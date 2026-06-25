@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>心理调适平台 - 辅导员后台</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f5f5f5;
+            min-height: 100vh;
+        }
+
+        /* 顶部导航栏 */
+        header {
+            background-color: #ffffff;
+            border-bottom: 1px solid #e0e0e0;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 60px;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #666;
+            font-size: 14px;
+            padding-bottom: 18px;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: #1890ff;
+        }
+
+        .nav-links a.active {
+            color: #1890ff;
+            border-bottom-color: #1890ff;
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: #1890ff;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* 主内容区域 */
+        main {
+            padding: 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* 页面标题 */
+        .page-header {
+            margin-bottom: 24px;
+        }
+
+        .page-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .page-subtitle {
+            font-size: 12px;
+            color: #999;
+        }
+
+        /* 筛选标签 */
+        .filter-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: 8px;
+            background-color: #f5f5f5;
+            padding: 4px;
+            border-radius: 4px;
+        }
+
+        .filter-tab {
+            padding: 6px 16px;
+            border: none;
+            background: transparent;
+            border-radius: 2px;
+            font-size: 12px;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .filter-tab:hover {
+            background-color: #e8e8e8;
+        }
+
+        .filter-tab.active {
+            background-color: #ffffff;
+            color: #1890ff;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        .sort-info {
+            font-size: 12px;
+            color: #999;
+        }
+
+        /* 预警卡片 */
+        .warning-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .warning-card {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            transition: all 0.2s;
+        }
+
+        .warning-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        /* 高危卡片样式 */
+        .warning-card.high-risk {
+            border-left: 4px solid #ff4d4f;
+            background: linear-gradient(135deg, #fff7f7 0%, #ffffff 100%);
+        }
+
+        .high-risk-badge {
+            background-color: #fff1f0;
+            border: 1px solid #ffccc7;
+            color: #ff4d4f;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-left: 8px;
+        }
+
+        /* 中度关注卡片 */
+        .warning-card.medium-risk {
+            border-left: 4px solid #fa8c16;
+        }
+
+        .medium-risk-badge {
+            background-color: #fff7e6;
+            border: 1px solid #ffd591;
+            color: #d46b08;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-left: 8px;
+        }
+
+        /* 轻度关注卡片 */
+        .warning-card.low-risk {
+            border-left: 4px solid #faad14;
+        }
+
+        .low-risk-badge {
+            background-color: #fffbe6;
+            border: 1px solid #ffe58f;
+            color: #d48806;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-left: 8px;
+        }
+
+        
+
+        /* 高危顶部提示条 */
+        .high-risk-banner {
+            background-color: #ff4d4f;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 4px 4px 0 0;
+            margin: -20px -20px 16px -20px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .high-risk-banner::before {
+            content: '!';
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 16px;
+            height: 16px;
+            background-color: rgba(255,255,255,0.3);
+            border-radius: 50%;
+            font-weight: bold;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .student-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .student-name {
+            font-size: 15px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .student-detail {
+            font-size: 12px;
+            color: #999;
+        }
+
+        .card-right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 12px;
+        }
+
+        .trigger-time {
+            font-size: 12px;
+            color: #999;
+        }
+
+        .view-btn {
+            padding: 6px 16px;
+            border: 1px solid #1890ff;
+            background-color: #fff;
+            color: #1890ff;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .view-btn:hover {
+            background-color: #e6f7ff;
+        }
+
+        .view-btn.high-risk-btn {
+            background-color: #ff4d4f;
+            border-color: #ff4d4f;
+            color: white;
+        }
+
+        .view-btn.high-risk-btn:hover {
+            background-color: #ff7875;
+            border-color: #ff7875;
+        }
+
+        .view-btn.disabled-btn {
+            background-color: #f5f5f5;
+            border-color: #d9d9d9;
+            color: #999;
+            cursor: not-allowed;
+        }
+
+        .weibo-content {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+            padding: 12px;
+            background-color: #fafafa;
+            border-radius: 4px;
+            margin-top: 8px;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        /* 底部免责声明 */
+        .disclaimer {
+            margin-top: 32px;
+            padding: 16px;
+            background-color: #fafafa;
+            border-radius: 8px;
+            font-size: 12px;
+            color: #999;
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .card-header {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .card-right {
+                align-items: flex-start;
+            }
+
+            .nav-links {
+                gap: 16px;
+            }
+
+            header {
+                padding: 0 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <header>
+        <div class="logo-section">
+            <div class="logo">心理调适平台</div>
+            <span style="color: #999; font-size: 12px;">· 辅导员后台</span>
+            <nav class="nav-links">
+                <a href="#" class="active">风险预警</a>
+                <a href="B2_caseDetail.html">个案分析</a>
+                <a href="B3_interviewStrategy.html">约谈策略</a>
+                <a href="B4_wechatDraft.html">企微推送</a>
+                <a href="#">学生管理</a>
+                <a href="#">设置</a>
+            </nav>
+        </div>
+        <div class="user-avatar">陈</div>
+    </header>
+
+    <!-- 主内容区域 -->
+    <main>
+        <!-- 页面标题 -->
+        <div class="page-header">
+            <h1 class="page-title">风险预警列表</h1>
+            <p class="page-subtitle">共 7 条记录 · 最后同步: 今日 14:32</p>
+        </div>
+
+        <!-- 筛选标签 -->
+        <div class="filter-bar">
+            <div class="filter-tabs">
+                <button class="filter-tab active">全部</button>
+                <button class="filter-tab">需专业干预</button>
+                <button class="filter-tab">中度关注</button>
+                <button class="filter-tab">轻度关注</button>
+            </div>
+            <div class="sort-info">按时间排序 ↓</div>
+        </div>
+
+        <!-- 预警列表 -->
+        <div class="warning-list">
+            <!-- 高危预警卡片 -->
+            <div class="warning-card high-risk">
+                <div class="high-risk-banner">
+                    需立即介入 · 请优先处理
+                </div>
+                <div class="card-header">
+                    <div class="student-info">
+                        <span class="student-name">裴同学 <span class="high-risk-badge">需专业干预</span></span>
+                        <span class="student-detail">学号 2021030142 · 计算机学院 · 2021级</span>
+                    </div>
+                    <div class="card-right">
+                        <span class="trigger-time">11-20 23:41</span>
+                        <span class="view-btn disabled-btn">
+                            ✓ 已推送预警
+                        </span>
+                    </div>
+                </div>
+                <div class="weibo-content">
+                    "已经两周没出门了，每天就躺着刷手机也刷不进去，吃东西也觉得没味道。今天鼓起勇气把论文打开了五分钟，还是关掉了。我知道我在拖累所有人，导师同学家人，所有人都因为我变得麻烦。有时候真的在想，如果我直接消失掉是不是大家都会轻松很多，这个念头今天出现了很多次，我有点怕。"
+                </div>
+            </div>
+
+            <!-- 中度关注卡片 -->
+            <div class="warning-card medium-risk">
+                <div class="card-header">
+                    <div class="student-info">
+                        <span class="student-name">李同学 <span class="medium-risk-badge">中度关注</span></span>
+                        <span class="student-detail">学号 2022020089 · 教育学院 · 2022级（研）</span>
+                    </div>
+                    <div class="card-right">
+                        <span class="trigger-time">11-20 18:22</span>
+                        <button class="view-btn" onclick="goToLiDetail()">
+                            查看详情 →
+                        </button>
+                    </div>
+                </div>
+                <div class="weibo-content">
+                    "身边的同学个个都拿到了大厂实习，要么就是论文进度飞快，只有我到现在还一无所有。我觉得自己可能根本不适合读研……一睁眼就焦虑得心慌，完全不知道未来该怎么办，这辈子注定是个loser。"
+                </div>
+            </div>
+
+            <!-- 轻度关注卡片 -->
+            <div class="warning-card low-risk">
+                <div class="card-header">
+                    <div class="student-info">
+                        <span class="student-name">王同学 <span class="low-risk-badge">轻度关注</span></span>
+                        <span class="student-detail">学号 2023050217 · 经济学院 · 2023级</span>
+                    </div>
+                    <div class="card-right">
+                        <span class="trigger-time">11-20 14:07</span>
+                        <button class="view-btn" onclick="goToWangDetail()">
+                            查看详情 →
+                        </button>
+                    </div>
+                </div>
+                <div class="weibo-content">
+                    "期末考试快到了，感觉自己什么都没复习好，脑子里一直在想万一挂科了怎么办，整晚睡不着，越想越焦虑，完全停不下来……"
+                </div>
+            </div>
+
+            <!-- 高危预警卡片2 -->
+            <div class="warning-card high-risk">
+                <div class="high-risk-banner">
+                    需立即介入 · 请优先处理
+                </div>
+                <div class="card-header">
+                    <div class="student-info">
+                        <span class="student-name">刘同学 <span class="high-risk-badge">需专业干预</span></span>
+                        <span class="student-detail">学号 2020010035 · 文学院 · 2020级</span>
+                    </div>
+                    <div class="card-right">
+                        <span class="trigger-time">11-19 21:15</span>
+                        <span class="view-btn disabled-btn">
+                            ✓ 已推送预警
+                        </span>
+                    </div>
+                </div>
+                <div class="weibo-content">
+                    "活着真的没什么意义，每天都很痛苦，不知道该怎么继续下去了……"
+                </div>
+            </div>
+
+            <!-- 需专业干预卡片3 -->
+            <div class="warning-card high-risk">
+                <div class="high-risk-banner">
+                    需立即介入 · 请优先处理
+                </div>
+                <div class="card-header">
+                    <div class="student-info">
+                        <span class="student-name">陈同学 <span class="high-risk-badge">需专业干预</span></span>
+                        <span class="student-detail">学号 2020120034 · 心理学院 · 2020级</span>
+                    </div>
+                    <div class="card-right">
+                        <span class="trigger-time">11-21 03:47</span>
+                        <button class="view-btn" onclick="goToDetail()">
+                            查看详情 →
+                        </button>
+                    </div>
+                </div>
+                <div class="weibo-content">
+                    "已经连续六天没办法睡着了，每天盯着天花板到天亮，心跳快得像要从嗓子眼跳出来，胃里一阵阵反胃干呕。看着桌上堆着的开题材料和跑不通的实验代码，只觉得极度恶心和恐惧。室友们都在高高兴兴地讨论大厂 Offer 和实习，我只能假装睡着把头闷在被子里，我连下床去洗个脸、去食堂买个饭的力气都没有了。"
+                </div>
+            </div>
+
+            <!-- 中度关注卡片2 -->
+            <div class="warning-card medium-risk">
+                <div class="card-header">
+                    <div class="student-info">
+                        <span class="student-name">赵同学 <span class="medium-risk-badge">中度关注</span></span>
+                        <span class="student-detail">学号 2021040078 · 外国语学院 · 2021级</span>
+                    </div>
+                    <div class="card-right">
+                        <span class="trigger-time">11-19 16:45</span>
+                        <button class="view-btn">
+                            查看详情 →
+                        </button>
+                    </div>
+                </div>
+                <div class="weibo-content">
+                    "已经连续一周失眠了，白天上课完全听不进去，作业也写不完，感觉自己快要撑不住了……"
+                </div>
+            </div>
+
+            <!-- 轻度关注卡片2 -->
+            <div class="warning-card low-risk">
+                <div class="card-header">
+                    <div class="student-info">
+                        <span class="student-name">孙同学 <span class="low-risk-badge">轻度关注</span></span>
+                        <span class="student-detail">学号 2022030156 · 理学院 · 2022级</span>
+                    </div>
+                    <div class="card-right">
+                        <span class="trigger-time">11-19 10:30</span>
+                        <button class="view-btn">
+                            查看详情 →
+                        </button>
+                    </div>
+                </div>
+                <div class="weibo-content">
+                    "最近总是容易烦躁，和室友也闹了点矛盾，感觉人际关系好累，想一个人待着……"
+                </div>
+            </div>
+
+            
+        </div>
+
+        <!-- 免责声明 -->
+        <div class="disclaimer">
+            <p>① 本系统预警结果由 AI 辅助分析生成，仅供辅导员参考，不构成专业心理诊断。最终干预方式请辅导员结合实际情况判断。</p>
+            <p>② 所有学生信息受隐私保护，请勿外传。</p>
+        </div>
+    </main>
+
+    <script>
+        // 筛选标签切换功能
+        const filterTabs = document.querySelectorAll('.filter-tab');
+        filterTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                filterTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+            });
+        });
+
+        // 查看按钮点击事件
+        const viewButtons = document.querySelectorAll('.view-btn');
+        viewButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                alert('进入个案分析详情页 (B2)');
+            });
+        });
+
+        function goToDetail() {
+            window.location.href = 'B2_caseDetail.html';
+        }
+
+        function goToLiDetail() {
+            window.location.href = 'B2-LI_caseDetail.html';
+        }
+
+        function goToWangDetail() {
+            window.location.href = 'B2-WANG_caseDetail.html';
+        }
+    </script>
+</body>
+</html>

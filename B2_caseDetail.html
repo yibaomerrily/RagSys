@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>心理调适平台 - 个案分析详情</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f5f5f5;
+            min-height: 100vh;
+        }
+
+        /* 顶部导航栏 */
+        header {
+            background-color: #ffffff;
+            border-bottom: 1px solid #e0e0e0;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 60px;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #666;
+            font-size: 14px;
+            padding-bottom: 18px;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: #1890ff;
+        }
+
+        .nav-links a.active {
+            color: #1890ff;
+            border-bottom-color: #1890ff;
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: #1890ff;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* 主内容区域 */
+        main {
+            padding: 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* 返回按钮 */
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #1890ff;
+            font-size: 14px;
+            text-decoration: none;
+            margin-bottom: 20px;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        /* 学生信息卡片 */
+        .student-info-card {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .student-basic-info {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .student-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .student-details {
+            display: flex;
+            gap: 24px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .contact-btn {
+            padding: 10px 24px;
+            background-color: #1890ff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .contact-btn:hover {
+            background-color: #40a9ff;
+        }
+
+        /* 两栏布局 */
+        .two-column-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        /* 卡片基础样式 */
+        .section-card {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 16px;
+            background-color: #1890ff;
+            border-radius: 2px;
+        }
+
+        /* 原文区块 */
+        .original-text {
+            background-color: #fafafa;
+            border-radius: 4px;
+            padding: 16px;
+            font-size: 14px;
+            color: #666;
+            line-height: 1.8;
+            white-space: pre-wrap;
+            margin-bottom: 20px;
+        }
+
+        /* 风险信号警示块 */
+        .risk-warning-block {
+            background-color: #fff1f0;
+            border: 1px solid #ffccc7;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+
+        .risk-warning-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .risk-warning-icon {
+            width: 24px;
+            height: 24px;
+            background-color: #ff4d4f;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .risk-warning-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #ff4d4f;
+        }
+
+        .risk-quote {
+            font-size: 14px;
+            color: #d93026;
+            font-style: italic;
+            margin-bottom: 12px;
+            padding: 8px;
+            background-color: rgba(255,77,79,0.05);
+            border-radius: 4px;
+        }
+
+        .risk-analysis {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.7;
+        }
+
+        /* 认知扭曲区块 */
+        .cognitive-distortion-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .distortion-item {
+            background-color: #fafafa;
+            border-radius: 6px;
+            padding: 14px;
+            border-left: 3px solid #faad14;
+        }
+
+        .distortion-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .distortion-basis {
+            font-size: 13px;
+            color: #1890ff;
+            margin-bottom: 6px;
+        }
+
+        .distortion-interpretation {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+
+        .distortion-source {
+            font-size: 12px;
+            color: #999;
+            font-style: italic;
+            padding-top: 8px;
+            border-top: 1px dashed #e0e0e0;
+        }
+
+        /* 情绪状态摘要 */
+        .emotion-summary {
+            background-color: #e6f7ff;
+            border-radius: 6px;
+            padding: 16px;
+            margin-top: 20px;
+        }
+
+        .emotion-summary-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1890ff;
+            margin-bottom: 10px;
+        }
+
+        .emotion-summary-content {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.7;
+        }
+
+        /* 底部按钮栏 */
+        .bottom-action-bar {
+            display: flex;
+            justify-content: flex-end;
+            gap: 16px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .action-btn {
+            padding: 10px 28px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .action-btn.primary {
+            background-color: #1890ff;
+            color: white;
+            border: none;
+        }
+
+        .action-btn.primary:hover {
+            background-color: #40a9ff;
+        }
+
+        .action-btn.secondary {
+            background-color: #ffffff;
+            color: #666;
+            border: 1px solid #d9d9d9;
+        }
+
+        .action-btn.secondary:hover {
+            background-color: #f5f5f5;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .two-column-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .student-info-card {
+                flex-direction: column;
+                gap: 16px;
+                align-items: flex-start;
+            }
+
+            .student-details {
+                flex-wrap: wrap;
+                gap: 12px;
+            }
+
+            .bottom-action-bar {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <header>
+        <div class="logo-section">
+            <div class="logo">心理调适平台</div>
+            <span style="color: #999; font-size: 12px;">· 辅导员后台</span>
+            <nav class="nav-links">
+                <a href="B1_riskList.html">风险预警</a>
+                <a href="#" class="active">个案分析</a>
+                <a href="B3_interviewStrategy.html">约谈策略</a>
+                <a href="B4_wechatDraft.html">企微推送</a>
+                <a href="#">学生管理</a>
+                <a href="#">设置</a>
+            </nav>
+        </div>
+        <div class="user-avatar">陈</div>
+    </header>
+
+    <!-- 主内容区域 -->
+    <main>
+        <!-- 返回链接 -->
+        <a href="B1_riskList.html" class="back-link">
+            <span>←</span> 返回预警列表
+        </a>
+
+        <!-- 学生信息卡片 -->
+        <div class="student-info-card">
+            <div class="student-basic-info">
+                <div class="student-name">陈同学</div>
+                <div class="student-details">
+                    <span>性别：女</span>
+                    <span>年龄：24</span>
+                    <span>班级：心理学院2020级</span>
+                    <span>学号：2020120034</span>
+                </div>
+            </div>
+            <button class="contact-btn">
+                <span>📞</span> 立即联系学生
+            </button>
+        </div>
+
+        <!-- 两栏布局 -->
+        <div class="two-column-layout">
+            <!-- 左栏：原文 + 风险信号 -->
+            <div>
+                <!-- 原文区块 -->
+                <div class="section-card">
+                    <div class="section-title">微博原文</div>
+                    <div class="original-text">
+                        "已经连续六天没办法睡着了，每天盯着天花板到天亮，心跳快得像要从嗓子眼跳出来，胃里一阵阵反胃干呕。看着桌上堆着的开题材料和跑不通的实验代码，只觉得极度恶心和恐惧。室友们都在高高兴兴地讨论大厂 Offer 和实习，我只能假装睡着把头闷在被子里，我连下床去洗个脸、去食堂买个饭的力气都没有了。"
+                    </div>
+                </div>
+
+                <!-- 风险信号警示块 -->
+                <div class="risk-warning-block">
+                    <div class="risk-warning-header">
+                        <div class="risk-warning-icon">⚠</div>
+                        <div class="risk-warning-title">风险信号警示</div>
+                    </div>
+                    <div class="risk-quote">
+                        "连续六天没办法睡着""心跳快得像要从嗓子眼跳出来""连下床去洗个脸、去食堂买个饭的力气都没有了"
+                    </div>
+                    <div class="risk-analysis">
+                        该生呈现<strong>高唤醒性焦虑状态</strong>，伴显著躯体化反应（持续失眠、心悸、胃肠不适）及情绪回避行为（蒙被装睡）。情绪强度已超出理性加工阈值，此时强行引导"分析想法合理性"可能加剧无力感，<strong>优先稳定生理-情绪状态是干预前提</strong>。建议约谈时关注其生理状态恢复情况，若后续出现情绪持续恶化，及时转介
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右栏：认知扭曲分析 + 情绪摘要 -->
+            <div>
+                <!-- 认知扭曲识别 -->
+                <div class="section-card">
+                    <div class="section-title">认知扭曲识别</div>
+                    <div class="cognitive-distortion-list">
+                        <!-- 认知扭曲1 -->
+                        <div class="distortion-item">
+                            <div class="distortion-title">① 灾难化归因</div>
+                            <div class="distortion-basis">原文依据："看着桌上堆着的开题材料和跑不通的实验代码，只觉得极度恶心和恐惧"</div>
+                            <div class="distortion-interpretation">
+                                将实验受阻、开题压力直接等同于个人能力崩塌与未来无望，对单一学业困境进行灾难化推演
+                            </div>
+                            <div class="distortion-source">来源：Beck, J.S.《认知疗法：基础与应用》第十一章 P.202</div>
+                        </div>
+
+                        <!-- 认知扭曲2 -->
+                        <div class="distortion-item">
+                            <div class="distortion-title">② 社会比较驱动的自我否定</div>
+                            <div class="distortion-basis">原文依据："室友们都在高高兴兴地讨论大厂 Offer 和实习，我只能假装睡着把头闷在被子里"</div>
+                            <div class="distortion-interpretation">
+                                以室友就业进展为绝对标尺，忽视自身学术进程的阶段性与个体差异性，通过社会比较强化自我否定
+                            </div>
+                            <div class="distortion-source">来源：同上</div>
+                        </div>
+
+                        <!-- 认知扭曲3 -->
+                        <div class="distortion-item">
+                            <div class="distortion-title">③ 情绪推理</div>
+                            <div class="distortion-basis">原文依据：由"心跳快""胃里反胃""极度恶心和恐惧"的躯体感受直接推导出"连下床洗个脸的力气都没有"</div>
+                            <div class="distortion-interpretation">
+                                以当下生理-情绪状态作为能力丧失的客观证据，形成"身体不适→我什么都做不了"的推理链条
+                            </div>
+                            <div class="distortion-source">来源：同上</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 情绪状态摘要 -->
+                <div class="emotion-summary">
+                    <div class="emotion-summary-title">📊 情绪状态摘要</div>
+                    <div class="emotion-summary-content">
+                        该生当前呈现<strong>高唤醒性焦虑状态</strong>，伴显著躯体化反应（持续失眠、心悸、胃肠不适）及情绪回避行为（蒙被装睡）。认知层面存在两个关键特征：一是<strong>灾难化归因</strong>（将实验受阻、开题压力直接等同于个人能力崩塌与未来无望）；二是<strong>社会比较驱动的自我否定</strong>（以室友就业进展为绝对标尺，忽视自身学术进程的阶段性与个体差异性）。情绪强度已超出理性加工阈值，优先稳定生理-情绪状态是干预前提。
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 底部按钮栏 -->
+        <div class="bottom-action-bar">
+            <button class="action-btn secondary">
+                标记为已读
+            </button>
+            <button class="action-btn primary" onclick="location.href='B3_interviewStrategy.html'">
+                <span>→</span> 查看约谈策略
+            </button>
+        </div>
+    </main>
+
+    <script>
+        // 立即联系学生按钮
+        document.querySelector('.contact-btn').addEventListener('click', () => {
+            alert('正在打开与陈同学的聊天窗口...');
+        });
+
+        // 标记为已读按钮
+        document.querySelector('.action-btn.secondary').addEventListener('click', () => {
+            alert('已标记为已读');
+        });
+    </script>
+</body>
+</html>

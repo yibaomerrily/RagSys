@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>心理调适平台 - 约谈策略建议</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f5f5f5;
+            min-height: 100vh;
+        }
+
+        /* 顶部导航栏 */
+        header {
+            background-color: #ffffff;
+            border-bottom: 1px solid #e0e0e0;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 60px;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #666;
+            font-size: 14px;
+            padding-bottom: 18px;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: #1890ff;
+        }
+
+        .nav-links a.active {
+            color: #1890ff;
+            border-bottom-color: #1890ff;
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: #1890ff;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* 主内容区域 */
+        main {
+            padding: 24px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* 返回链接 */
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #1890ff;
+            font-size: 14px;
+            text-decoration: none;
+            margin-bottom: 20px;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        /* 页面标题 */
+        .page-header {
+            margin-bottom: 24px;
+        }
+
+        .page-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .page-subtitle {
+            font-size: 14px;
+            color: #999;
+        }
+
+        /* 安全确认警示卡 */
+        .safety-warning-card {
+            background-color: #fff1f0;
+            border: 1px solid #ffccc7;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 24px;
+            border-left: 4px solid #ff4d4f;
+        }
+
+        .safety-warning-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .safety-warning-icon {
+            width: 32px;
+            height: 32px;
+            background-color: #ff4d4f;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .safety-warning-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #d93026;
+        }
+
+        .safety-warning-content {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.7;
+            padding-left: 44px;
+        }
+
+        .safety-warning-content p {
+            margin-bottom: 8px;
+        }
+
+        .safety-warning-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* 禁忌清单卡片 */
+        .taboo-list-card {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .taboo-list-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .taboo-list-title::before {
+            content: '⚠';
+            color: #faad14;
+            font-size: 18px;
+        }
+
+        .taboo-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .taboo-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid #f5f5f5;
+        }
+
+        .taboo-item:last-child {
+            border-bottom: none;
+        }
+
+        .taboo-icon {
+            color: #ff4d4f;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .taboo-content {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .taboo-bad {
+            color: #d93026;
+            font-weight: 500;
+        }
+
+        .taboo-reason {
+            color: #999;
+            font-size: 13px;
+            margin-top: 4px;
+        }
+
+        /* 谈话三步走 */
+        .interview-steps-card {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .interview-steps-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .interview-steps-title::before {
+            content: '📋';
+            font-size: 18px;
+        }
+
+        /* 步骤卡片 */
+        .step-card {
+            background-color: #fafafa;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+            border-left: 4px solid #1890ff;
+            transition: all 0.2s;
+        }
+
+        .step-card:hover {
+            background-color: #f0f5ff;
+        }
+
+        .step-card:last-child {
+            margin-bottom: 0;
+        }
+
+        .step-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .step-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .step-number {
+            width: 24px;
+            height: 24px;
+            background-color: #1890ff;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .step-duration {
+            font-size: 12px;
+            color: #999;
+            background-color: #fff;
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        .step-objective {
+            font-size: 13px;
+            color: #1890ff;
+            margin-bottom: 10px;
+        }
+
+        .step-objective strong {
+            font-weight: 500;
+        }
+
+        .step-source {
+            font-size: 12px;
+            color: #999;
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+
+        .step-script {
+            background-color: #fff;
+            border-radius: 4px;
+            padding: 12px;
+            margin-bottom: 8px;
+        }
+
+        .step-script-label {
+            font-size: 12px;
+            color: #999;
+            margin-bottom: 4px;
+        }
+
+        .step-script-content {
+            font-size: 14px;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .step-note {
+            font-size: 13px;
+            color: #666;
+            padding-left: 12px;
+            border-left: 2px solid #e0e0e0;
+        }
+
+        /* B4入口卡片 */
+        .b4-entry-card {
+            background-color: #e6f7ff;
+            border: 1px solid #91d5ff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .b4-entry-text {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .b4-entry-btn {
+            padding: 10px 24px;
+            background-color: #1890ff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .b4-entry-btn:hover {
+            background-color: #40a9ff;
+        }
+
+        /* 底部免责声明 */
+        .disclaimer {
+            padding: 16px;
+            background-color: #fafafa;
+            border-radius: 8px;
+            font-size: 12px;
+            color: #999;
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .safety-warning-content {
+                padding-left: 0;
+                margin-top: 12px;
+            }
+
+            .safety-warning-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .b4-entry-card {
+                flex-direction: column;
+                gap: 16px;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <header>
+        <div class="logo-section">
+            <div class="logo">心理调适平台</div>
+            <span style="color: #999; font-size: 12px;">· 辅导员后台</span>
+            <nav class="nav-links">
+                <a href="B1_riskList.html">风险预警</a>
+                <a href="B2_caseDetail.html">个案分析</a>
+                <a href="#" class="active">约谈策略</a>
+                <a href="B4_wechatDraft.html">企微推送</a>
+                <a href="#">学生管理</a>
+                <a href="#">设置</a>
+            </nav>
+        </div>
+        <div class="user-avatar">陈</div>
+    </header>
+
+    <!-- 主内容区域 -->
+    <main>
+        <!-- 返回链接 -->
+        <a href="B2_caseDetail.html" class="back-link">
+            <span>←</span> 返回个案分析
+        </a>
+
+        <!-- 页面标题 -->
+        <div class="page-header">
+            <h1 class="page-title">约谈策略建议</h1>
+            <p class="page-subtitle">陈同学 · 心理学院2020级</p>
+        </div>
+
+        <!-- 安全确认警示卡 -->
+        <div class="safety-warning-card">
+            <div class="safety-warning-header">
+                <div class="safety-warning-icon">⚠</div>
+                <div class="safety-warning-title">约谈首要任务：安全状态确认</div>
+            </div>
+            <div class="safety-warning-content">
+                <p>该生呈现<strong>高唤醒性焦虑状态</strong>，伴显著躯体化反应（持续失眠、心悸、胃肠不适）。情绪强度已超出理性加工阈值。</p>
+                <p><strong>可以问：</strong>"连续六天睡不着、心跳快到嗓子眼——这些天你是怎么熬过来的？"</p>
+                <p><strong>注意：</strong>此时强行引导"分析想法合理性"可能加剧无力感，优先稳定生理-情绪状态是干预前提。若学生有明确的自伤意图表达，请立即启动学校心理危机转介流程。</p>
+            </div>
+        </div>
+
+        <!-- 三个禁忌清单 -->
+        <div class="taboo-list-card">
+            <div class="taboo-list-title">本次约谈的三个禁忌</div>
+            <ul class="taboo-list">
+                <li class="taboo-item">
+                    <span class="taboo-icon">❌</span>
+                    <div class="taboo-content">
+                        <span class="taboo-bad">不说"别紧张""想开点"</span>
+                        <div class="taboo-reason">——无效安慰，无法缓解躯体化症状</div>
+                    </div>
+                </li>
+                <li class="taboo-item">
+                    <span class="taboo-icon">❌</span>
+                    <div class="taboo-content">
+                        <span class="taboo-bad">不问"你为什么连洗脸都做不到"</span>
+                        <div class="taboo-reason">——质问会强化自我否定，加剧无力感</div>
+                    </div>
+                </li>
+                <li class="taboo-item">
+                    <span class="taboo-icon">❌</span>
+                    <div class="taboo-content">
+                        <span class="taboo-bad">不急于讨论开题和实验进度</span>
+                        <div class="taboo-reason">——学生当前需要的是先稳住身心状态，不是解决学业问题</div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 谈话三步走 -->
+        <div class="interview-steps-card">
+            <div class="interview-steps-title">谈话三步走</div>
+            
+            <!-- Step 1 -->
+            <div class="step-card">
+                <div class="step-header">
+                    <div class="step-title">
+                        <span class="step-number">1</span>
+                        共情具身化
+                    </div>
+                    <span class="step-duration">约5分钟</span>
+                </div>
+                <div class="step-objective">
+                    <strong>目标：</strong>用描述性语言复述躯体体验，增强被理解感
+                </div>
+                <div class="step-script">
+                    <div class="step-script-label">话术参考：</div>
+                    <div class="step-script-content">
+                        "连续六天睡不着、心跳快到嗓子眼、胃里一阵阵反胃——这些不是心理暗示，是身体真实的应激反应。就像跑步后肌肉酸痛一样，你的神经系统也需要休息。"
+                    </div>
+                </div>
+                <div class="step-note">
+                    传递关键信息："你现在不是懒、不是脆弱，而是神经系统正在超负荷运转——我们需要先帮它歇一口气。"
+                </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="step-card">
+                <div class="step-header">
+                    <div class="step-title">
+                        <span class="step-number">2</span>
+                        5分钟分心选择包
+                    </div>
+                    <span class="step-duration">约10分钟</span>
+                </div>
+                <div class="step-objective">
+                    <strong>目标：</strong>提供微小行动选项，重建掌控感，打破焦虑循环
+                </div>
+                <div class="step-source">
+                    来源：CBT行为激活，《认知疗法》第六章
+                </div>
+                <div class="step-script">
+                    <div class="step-script-label">话术参考：</div>
+                    <div class="step-script-content">
+                        "我们不聊开题也不聊代码，就选一件今天能做的小事。你看这几个选项里，有没有哪一个感觉稍微能做到的？"
+                    </div>
+                </div>
+                <div class="step-note">
+                    选项：<br>
+                    □ 听一首纯音乐（推荐：久石让《Summer》钢琴版）<br>
+                    □ 整理书桌左上角10cm×10cm区域<br>
+                    □ 在手机备忘录里随手写三个词，描述现在身体的感受<br>
+                    □ 窗边静坐，专注数5次缓慢呼吸
+                </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="step-card">
+                <div class="step-header">
+                    <div class="step-title">
+                        <span class="step-number">3</span>
+                        情绪回落锚点
+                    </div>
+                    <span class="step-duration">约5分钟</span>
+                </div>
+                <div class="step-objective">
+                    <strong>目标：</strong>为后续干预铺垫，将宏大任务解构为单点
+                </div>
+                <div class="step-script">
+                    <div class="step-script-label">话术参考：</div>
+                    <div class="step-script-content">
+                        "当你做完这5分钟，如果感觉心跳稍缓、胃部没那么紧了，就说明身体开始'松绑'了。那时我们再一起看看——开题材料里哪一页让你最喘不过气？我们可以把它撕下来，只讨论这一张纸。"
+                    </div>
+                </div>
+                <div class="step-note">
+                    注意：若学生说"连5分钟都做不到"，调整为更微小动作："现在把手放在桌上，感受桌面的温度，持续10秒"
+                </div>
+            </div>
+        </div>
+
+        <!-- B4入口 -->
+        <div class="b4-entry-card">
+            <div class="b4-entry-text">
+                系统已根据本次分析生成一份企微关怀文案，建议约谈结束后发送给学生。
+            </div>
+            <button class="b4-entry-btn" onclick="location.href='B4_wechatDraft.html'">
+                <span>📱</span> 查看并发送企微草稿 →
+            </button>
+        </div>
+
+        <!-- 免责声明 -->
+        <div class="disclaimer">
+            <p>本页面内容由AI辅助生成，仅供辅导员参考。实际约谈请结合学生具体情况灵活调整。</p>
+        </div>
+    </main>
+
+    <script>
+        // B4入口按钮点击事件
+        document.querySelector('.b4-entry-btn').addEventListener('click', () => {
+            // 跳转逻辑已通过onclick实现
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>你不是一个人</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(180deg, #fff7f7 0%, #fff1f0 100%);
+            min-height: 100vh;
+        }
+
+        /* 顶部状态栏 */
+        .status-bar {
+            height: 44px;
+            padding-top: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-left: 24px;
+            padding-right: 24px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #000;
+            background-color: rgba(255,255,255,0.8);
+        }
+
+        /* 主内容区域 */
+        .content {
+            padding: 48px 24px;
+            text-align: center;
+        }
+
+        /* 图标区域 */
+        .icon-section {
+            margin-bottom: 24px;
+        }
+
+        .main-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #ff4d4f 0%, #ff7875 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            box-shadow: 0 8px 24px rgba(255, 77, 79, 0.3);
+        }
+
+        .icon-text {
+            font-size: 48px;
+        }
+
+        /* 标题区域 */
+        .title-section {
+            margin-bottom: 24px;
+        }
+
+        .main-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #d93026;
+            margin-bottom: 12px;
+        }
+
+        .sub-title {
+            font-size: 15px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* 热线号码区域 */
+        .hotline-section {
+            background-color: #ffffff;
+            border-radius: 16px;
+            padding: 32px 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+        }
+
+        .hotline-label {
+            font-size: 13px;
+            color: #999;
+            margin-bottom: 12px;
+        }
+
+        .hotline-number {
+            font-size: 36px;
+            font-weight: 700;
+            color: #ff4d4f;
+            margin-bottom: 16px;
+            letter-spacing: 4px;
+        }
+
+        .hotline-btn {
+            display: inline-block;
+            padding: 14px 48px;
+            background: linear-gradient(135deg, #ff4d4f 0%, #ff7875 100%);
+            color: white;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 500;
+            text-decoration: none;
+            box-shadow: 0 6px 20px rgba(255, 77, 79, 0.35);
+            transition: all 0.2s;
+        }
+
+        .hotline-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 77, 79, 0.4);
+        }
+
+        .hotline-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* 备用联系方式 */
+        .contact-section {
+            margin-bottom: 32px;
+        }
+
+        .contact-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 16px;
+        }
+
+        .contact-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .contact-item {
+            background-color: #ffffff;
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .contact-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .contact-icon.green {
+            background-color: #f6ffed;
+            color: #52c41a;
+        }
+
+        .contact-icon.blue {
+            background-color: #e6f7ff;
+            color: #1890ff;
+        }
+
+        .contact-content {
+            flex: 1;
+            text-align: left;
+        }
+
+        .contact-label {
+            font-size: 13px;
+            color: #999;
+            margin-bottom: 2px;
+        }
+
+        .contact-value {
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        /* 安抚文字 */
+        .comfort-section {
+            padding: 24px;
+            background-color: rgba(255, 255, 255, 0.6);
+            border-radius: 16px;
+            margin-bottom: 32px;
+        }
+
+        .comfort-text {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.8;
+        }
+
+        .comfort-text strong {
+            color: #d93026;
+        }
+
+        /* 底部提示 */
+        .bottom-hint {
+            font-size: 12px;
+            color: #999;
+        }
+
+        /* 底部横条 */
+        .home-indicator {
+            width: 134px;
+            height: 5px;
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 3px;
+            margin: 24px auto 20px;
+        }
+
+        /* Toast提示 */
+        .toast {
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 20px;
+            font-size: 13px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+
+        .toast.show {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <!-- 状态栏 -->
+    <div class="status-bar">
+        <span>⌚️</span>
+        <span></span>
+        <span>🔋</span>
+    </div>
+
+    <!-- 主内容 -->
+    <div class="content">
+        <!-- 图标区域 -->
+        <div class="icon-section">
+            <div class="main-icon">
+                <span class="icon-text">💝</span>
+            </div>
+        </div>
+
+        <!-- 标题区域 -->
+        <div class="title-section">
+            <h1 class="main-title">你不是一个人</h1>
+            <p class="sub-title">
+                如果你此刻感到很难，请记得：<br>
+                总有人在关心你，愿意陪你度过这段时光。
+            </p>
+        </div>
+
+        <!-- 热线号码区域 -->
+        <div class="hotline-section">
+            <div class="hotline-label">24小时心理援助热线</div>
+            <div class="hotline-number">400-161-9995</div>
+            <a href="tel:4001619995" class="hotline-btn" onclick="handleCall()">
+                📞 立即拨打
+            </a>
+        </div>
+
+        <!-- 备用联系方式 -->
+        <div class="contact-section">
+            <div class="contact-title">其他支持方式</div>
+            <div class="contact-list">
+                <div class="contact-item">
+                    <div class="contact-icon green">🏥</div>
+                    <div class="contact-content">
+                        <div class="contact-label">学校心理咨询中心</div>
+                        <div class="contact-value">010-12345678</div>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon blue">💬</div>
+                    <div class="contact-content">
+                        <div class="contact-label">在线咨询</div>
+                        <div class="contact-value">工作日 9:00-18:00</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 安抚文字 -->
+        <div class="comfort-section">
+            <p class="comfort-text">
+                <strong>请记住：</strong><br>
+                你愿意打开这个页面，找到这里，这本身已经很不容易了。此刻不需要做任何解释，也不需要立刻振作——只需要让这条热线接住你。<br><br>
+                如果你需要帮助，请不要犹豫——寻求帮助不是软弱，而是勇敢的表现。
+            </p>
+        </div>
+
+        <!-- 底部提示 -->
+        <div class="bottom-hint">
+            你值得被关心，被爱护
+        </div>
+    </div>
+
+    <!-- 底部横条 -->
+    <div class="home-indicator"></div>
+
+    <!-- Toast提示 -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+        function handleCall() {
+            showToast('正在拨打热线...');
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2000);
+        }
+    </script>
+</body>
+</html>

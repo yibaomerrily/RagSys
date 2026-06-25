@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个案分析详情 - 王同学</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f5f5f5;
+            min-height: 100vh;
+        }
+
+        /* 顶部导航 */
+        .header {
+            background-color: #fff;
+            padding: 16px 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #666;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: #1890ff;
+        }
+
+        .nav-links a.active {
+            color: #1890ff;
+            font-weight: 500;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        /* 主内容区域 */
+        .content {
+            max-width: 1200px;
+            margin: 24px auto;
+            padding: 0 24px;
+        }
+
+        /* 学生信息卡片 */
+        .student-info-card {
+            background: linear-gradient(135deg, #faad14 0%, #ffc53d 100%);
+            color: white;
+            padding: 20px 24px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 20px rgba(250, 173, 20, 0.3);
+        }
+
+        .student-basic {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .student-name {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .student-detail {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .contact-btn {
+            padding: 10px 24px;
+            background-color: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .contact-btn:hover {
+            background-color: rgba(255,255,255,0.3);
+        }
+
+        /* 两栏布局 */
+        .two-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .column {
+            background-color: #fff;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+        }
+
+        .column-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        /* 原文内容 */
+        .original-text {
+            font-size: 14px;
+            line-height: 1.7;
+            color: #666;
+            padding: 16px;
+            background-color: #fafafa;
+            border-radius: 8px;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        /* 风险信号警示 */
+        .risk-warning-block {
+            background-color: rgba(250, 173, 20, 0.08);
+            border: 1px solid #ffe58f;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .risk-warning-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .risk-warning-icon {
+            font-size: 20px;
+        }
+
+        .risk-warning-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #d48806;
+        }
+
+        .risk-quote {
+            font-size: 13px;
+            color: #d48806;
+            line-height: 1.6;
+            font-style: italic;
+            margin-bottom: 12px;
+        }
+
+        .risk-analysis {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* 认知扭曲卡片 */
+        .cognitive-card {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+            border-left: 4px solid #faad14;
+        }
+
+        .cognitive-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .cognitive-text {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+
+        .cognitive-source {
+            font-size: 12px;
+            color: #999;
+        }
+
+        /* 情绪摘要 */
+        .emotion-summary {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #666;
+            padding: 16px;
+            background-color: #fffbe6;
+            border-radius: 8px;
+        }
+
+        /* 底部按钮 */
+        .bottom-btn {
+            text-align: right;
+            padding: 16px 0;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .next-btn {
+            padding: 12px 32px;
+            background-color: #faad14;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .next-btn:hover {
+            background-color: #ffc53d;
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部导航 -->
+    <div class="header">
+        <div class="nav-links">
+            <a href="B1 riskList.html">风险预警</a>
+            <a href="B2-WANG_caseDetail.html" class="active">个案分析</a>
+            <a href="B3-WANG_interviewStrategy.html">约谈策略</a>
+            <a href="B4-WANG_wechatDraft.html">企微推送</a>
+            <a href="#">学生管理</a>
+            <a href="#">设置</a>
+        </div>
+        <div class="header-right">
+            <span>辅导员：王老师</span>
+        </div>
+    </div>
+
+    <!-- 主内容 -->
+    <div class="content">
+        <!-- 学生信息卡片 -->
+        <div class="student-info-card">
+            <div class="student-basic">
+                <div class="student-name">王同学 <span style="font-size: 14px; font-weight: normal; opacity: 0.8;">· 轻度关注</span></div>
+                <div class="student-detail">学号：2023050217 | 经济学院 | 2023级</div>
+            </div>
+            <button class="contact-btn">立即联系学生</button>
+        </div>
+
+        <!-- 两栏布局 -->
+        <div class="two-columns">
+            <!-- 左栏：原文 + 风险信号 -->
+            <div class="column">
+                <div class="column-title">📝 微博原文</div>
+                <div class="original-text">
+"期末考试快到了，感觉自己什么都没复习好，脑子里一直在想万一挂科了怎么办，整晚睡不着，越想越焦虑，完全停不下来……"
+                </div>
+
+                <!-- 风险信号警示 -->
+                <div class="risk-warning-block">
+                    <div class="risk-warning-header">
+                        <div class="risk-warning-icon">⚠</div>
+                        <div class="risk-warning-title">风险信号警示</div>
+                    </div>
+                    <div class="risk-quote">
+                        "感觉自己什么都没复习好""万一挂科了怎么办""整晚睡不着""越想越焦虑，完全停不下来"
+                    </div>
+                    <div class="risk-analysis">
+                        该生呈现<strong>考试焦虑状态</strong>，伴有过度担忧和思维反刍现象。当前主要受考前压力影响，需帮助其建立合理的复习节奏和放松方法。
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右栏：认知扭曲 + 情绪摘要 -->
+            <div class="column">
+                <div class="column-title">🧠 认知扭曲识别</div>
+                
+                <!-- 认知扭曲1 -->
+                <div class="cognitive-card">
+                    <div class="cognitive-title">① 过度概括</div>
+                    <div class="cognitive-text">
+                        <strong>原文依据：</strong>"感觉自己什么都没复习好"<br>
+                        <strong>解读：</strong>将部分知识点的不熟悉泛化为"什么都没复习好"，忽视已掌握的内容，放大焦虑感。
+                    </div>
+                    <div class="cognitive-source">来源：Beck, J.S.《认知疗法：基础与应用》第十一章</div>
+                </div>
+
+                <!-- 认知扭曲2 -->
+                <div class="cognitive-card">
+                    <div class="cognitive-title">② 灾难化预测</div>
+                    <div class="cognitive-text">
+                        <strong>原文依据：</strong>"万一挂科了怎么办"<br>
+                        <strong>解读：</strong>将可能的负面结果（挂科）过度放大，引发不必要的恐慌和失眠。
+                    </div>
+                    <div class="cognitive-source">来源：同上</div>
+                </div>
+
+                <!-- 认知扭曲3 -->
+                <div class="cognitive-card">
+                    <div class="cognitive-title">③ 情绪推理</div>
+                    <div class="cognitive-text">
+                        <strong>原文依据：</strong>"越想越焦虑，完全停不下来"<br>
+                        <strong>解读：</strong>由焦虑情绪反推"我肯定考不好"，用主观感受替代客观评估。
+                    </div>
+                    <div class="cognitive-source">来源：同上</div>
+                </div>
+
+                <!-- 情绪状态摘要 -->
+                <div style="margin-top: 16px;">
+                    <div class="column-title" style="padding-bottom: 8px;">💭 情绪状态摘要</div>
+                    <div class="emotion-summary">
+                        学生当前呈现<strong>考前焦虑情绪</strong>，核心困扰为期末考试压力引发的过度担忧。情绪基调以焦虑和不安为主，存在思维反刍现象，影响睡眠质量。
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 底部按钮 -->
+        <div class="bottom-btn">
+            <button class="next-btn" onclick="goToStrategy()">查看约谈策略 →</button>
+        </div>
+    </div>
+
+    <script>
+        function goToStrategy() {
+            window.location.href = 'B3-WANG_interviewStrategy.html';
+        }
+    </script>
+</body>
+</html>

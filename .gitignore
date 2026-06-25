@@ -1,0 +1,53 @@
+# Environment Variables
+.env
+.env.local
+.env.production
+
+# Python Cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual Environment
+venv/
+.env/
+.venv/
+env/
+
+# ChromaDB Data
+chroma_db/
+*.chroma
+
+# Logs
+*.log
+logs/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build Artifacts
+dist/
+build/
+*.egg-info/
+
+# Test Coverage
+htmlcov/
+.coverage
+.pytest_cache/
+
+# Jupyter Notebooks
+*.ipynb
+.ipynb_checkpoints/
+
+# Static Files
+*.css.map
+*.js.map

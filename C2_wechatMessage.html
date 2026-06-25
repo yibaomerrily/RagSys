@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>企微消息</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* iPhone手机壳 */
+        .phone-container {
+            width: 375px;
+            height: 812px;
+            background-color: #1a1a1a;
+            border-radius: 48px;
+            padding: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        /* 顶部听筒区域 */
+        .phone-notch {
+            width: 160px;
+            height: 30px;
+            background-color: #1a1a1a;
+            border-radius: 0 0 20px 20px;
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+        }
+
+        /* 屏幕区域 */
+        .screen {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, #e5e5e5 0%, #f0f0f0 100%);
+            border-radius: 40px;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 状态栏 */
+        .status-bar {
+            height: 44px;
+            padding-top: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-left: 32px;
+            padding-right: 32px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #000;
+        }
+
+        /* 聊天头部 */
+        .chat-header {
+            height: 48px;
+            background-color: #ffffff;
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .back-btn {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            cursor: pointer;
+        }
+
+        .chat-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .chat-avatar {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #1890ff 0%, #40a9ff 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            margin-right: 12px;
+        }
+
+        /* 聊天内容区域 */
+        .chat-content {
+            flex: 1;
+            padding: 16px;
+            overflow-y: auto;
+        }
+
+        /* 时间戳 */
+        .time-stamp {
+            text-align: center;
+            font-size: 12px;
+            color: #999;
+            margin: 12px 0;
+        }
+
+        /* 消息气泡 */
+        .message-bubble {
+            max-width: 85%;
+            margin-bottom: 16px;
+        }
+
+        .message-bubble.left {
+            float: left;
+        }
+
+        .message-bubble.right {
+            float: right;
+        }
+
+        .message-content {
+            background-color: #ffffff;
+            padding: 12px 16px;
+            border-radius: 18px;
+            border-bottom-left-radius: 6px;
+            font-size: 14px;
+            color: #333;
+            line-height: 1.6;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .message-bubble.right .message-content {
+            background-color: #52c41a;
+            color: white;
+            border-radius: 18px;
+            border-bottom-right-radius: 6px;
+        }
+
+        /* 链接卡片 */
+        .link-card {
+            background-color: #ffffff;
+            border-radius: 12px;
+            padding: 12px;
+            margin-top: 8px;
+            border: 1px solid #e0e0e0;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .link-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .link-card:active {
+            transform: scale(0.98);
+        }
+
+        .link-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .link-desc {
+            font-size: 12px;
+            color: #999;
+            margin-bottom: 8px;
+        }
+
+        .link-arrow {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            font-size: 12px;
+            color: #1890ff;
+        }
+
+        /* 输入框区域 */
+        .input-area {
+            background-color: #ffffff;
+            padding: 12px 16px;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding-bottom: 24px;
+        }
+
+        .input-icon {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .input-box {
+            flex: 1;
+            height: 36px;
+            background-color: #f5f5f5;
+            border-radius: 18px;
+            padding: 0 16px;
+            font-size: 14px;
+            border: none;
+            outline: none;
+        }
+
+        .input-box::placeholder {
+            color: #999;
+        }
+
+        /* 底部横条 */
+        .home-indicator {
+            width: 134px;
+            height: 5px;
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 3px;
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Toast提示 */
+        .toast {
+            position: absolute;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 12px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        .toast.show {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="phone-container">
+        <div class="phone-notch"></div>
+        <div class="screen">
+            <!-- 状态栏 -->
+            <div class="status-bar">
+                <span>9:41</span>
+                <span>企业微信</span>
+                <span>📶 🔋</span>
+            </div>
+
+            <!-- 聊天头部 -->
+            <div class="chat-header">
+                <div class="back-btn">←</div>
+                <div class="chat-avatar">陈</div>
+                <div class="chat-title">陈辅导员</div>
+            </div>
+
+            <!-- 聊天内容 -->
+            <div class="chat-content">
+                <!-- 时间戳 -->
+                <div class="time-stamp">今天 14:32</div>
+
+                <!-- 辅导员消息 -->
+                <div class="message-bubble left">
+                    <div class="message-content">
+                        嗨，最近看你状态好像有点辛苦～我整理了一些调节身心状态的小方法，觉得你这个阶段可能会用得上。没有什么负担，就是一些很小很小的动作，花不了几分钟。<br><br>发给你看看，不一定要用，就放着备用
+                    </div>
+                    
+                    <!-- 链接卡片 -->
+                    <div class="link-card" onclick="openLink()">
+                        <div class="link-title">📖 《感觉累的时候可以试试这个》</div>
+                        <div class="link-desc">感觉累的时候，可以先做这一件小事</div>
+                        <div class="link-arrow">查看 →</div>
+                    </div>
+                </div>
+
+                <!-- 学生回复 -->
+                <div class="message-bubble right">
+                    <div class="message-content">
+                        好的谢谢老师！我看看~
+                    </div>
+                </div>
+            </div>
+
+            <!-- 输入框区域 -->
+            <div class="input-area">
+                <div class="input-icon">🎤</div>
+                <input type="text" class="input-box" placeholder="输入消息...">
+                <div class="input-icon">😊</div>
+                <div class="input-icon">➕</div>
+            </div>
+
+            <!-- 底部横条 -->
+            <div class="home-indicator"></div>
+
+            <!-- Toast提示 -->
+            <div class="toast" id="toast"></div>
+        </div>
+    </div>
+
+    <script>
+        function openLink() {
+            showToast('正在打开链接...');
+            setTimeout(() => {
+                // 跳转到C3情绪支持内容页
+                window.location.href = 'C3_emotionSupport.html';
+            }, 1000);
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
