@@ -156,7 +156,7 @@ RAGsystem/
 ## 核心技术
 
 - **RAG框架**: LangChain
-- **LLM模型**: GPT-4 Turbo
+- **LLM模型**: Qwen
 - **向量数据库**: ChromaDB
 - **Web框架**: FastAPI
 - **前端**: HTML/CSS/JavaScript
